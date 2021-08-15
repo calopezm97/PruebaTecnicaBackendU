@@ -23,9 +23,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.3.8.RELEASE'
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-bootstrap
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.0.3'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.25'
 
-	implementation "io.springfox:springfox-boot-starter:3.0.0"
-	compileOnly "io.springfox:springfox-swagger-ui:3.0.0"
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
