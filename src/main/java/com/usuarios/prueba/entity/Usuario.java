@@ -31,14 +31,10 @@ public class Usuario {
 	private Pais pais;
 	private TipoDocumento tipoDocumento;
 	private String documento;
-	@Column(name = "email", length = 300)
 	private String email;
-	@Column(name = "state")
-	private String estado;
-	@Column(name = "created_at")
-	private String creado;
-	@Column(name = "update_at")
-	private String actualizado;
+	private Estado estado;
+	private String creadoEl;
+	private String actualizadoEl;
 
 
 }

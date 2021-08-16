@@ -20,9 +20,8 @@ public class UsuarioControllerImpl implements UsuarioController {
     /**
      * Metodo que lista todos los empleados desde la url, extrae toda la informacion
      */
-// http://localhost:8080/usuarios (GET)
     @Override
-    @RequestMapping(value = "/usuario", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/usuarios", method = RequestMethod.GET, produces = "application/json")
     public List<Usuario> getUsuarios() {
         return usuarioService.findAllUsuarios();
     }
@@ -32,9 +31,8 @@ public class UsuarioControllerImpl implements UsuarioController {
      *
      * @param id codigo con el que se extrae la informacion
      */
-// http://localhost:8080/usuarios/1 (GET)
     @Override
-    @RequestMapping(value = "/usuario/{id}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/usuarios/{id}", method = RequestMethod.GET, produces = "application/json")
     public Optional<Usuario> getUsuarioById(@PathVariable int id) {
         return usuarioService.findUsuarioById(id);
     }
@@ -44,9 +42,8 @@ public class UsuarioControllerImpl implements UsuarioController {
      *
      * @param usuario Empleado sin ID para ser añadido en la Lista
      */
-    // http://localhost:8080/usuarios/add (ADD)
     @Override
-    @RequestMapping(value = "/usuario/add", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/usuarios/", method = RequestMethod.POST, produces = "application/json")
     public boolean addUsuario(@RequestBody Usuario usuario) {
         usuario = validateEmail(usuario);
         usuario.setActualizado(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
@@ -81,9 +78,8 @@ public class UsuarioControllerImpl implements UsuarioController {
      * @param id es el objeto- registro que deseamos eliminar
      */
 
-    // http://localhost:8080/Usuarios/delete/1 (GET)
     @Override
-    @RequestMapping(value = "/usuario/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/usuarios/{id}", method = RequestMethod.DELETE)
     public boolean deleteUsuario(@PathVariable int id) {
         usuarioService.deleteUsuario(id);
         return true;
@@ -96,7 +92,7 @@ public class UsuarioControllerImpl implements UsuarioController {
      */
     // http://localhost:8080/usuarios/update (PUT)
     @Override
-    @PatchMapping(value = "/usuario/update/{id}")
+    @PutMapping(value = "/usuario/{id}")
     public boolean updateUsuario(@RequestBody Usuario usuarioNew) {
         usuarioNew = validateEmail(usuarioNew);
         return usuarioService.updateUsuario(usuarioNew);
