@@ -15,8 +15,8 @@ jobs:
         environment:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: usuario
-          MYSQL_USER: usuario
-          MYSQL_PASSWORD: passw0rd
+          MYSQL_USER: user
+          MYSQL_PASSWORD: pass
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -32,19 +32,14 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: gradle dependencies
-
+            - gradle-{{ checksum "build.gradle" }}
+      - run: gradle build
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+          key: gradle-{{ checksum "build.gradle" }}
 
       - run:
           name: Wait for DB
