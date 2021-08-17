@@ -1,6 +1,7 @@
 package com.usuarios.prueba.controllers.impl;
 
 import com.usuarios.prueba.controllers.UsuarioController;
+import com.usuarios.prueba.entity.Estado;
 import com.usuarios.prueba.entity.Usuario;
 import com.usuarios.prueba.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,8 @@ public class UsuarioControllerImpl implements UsuarioController {
     @RequestMapping(value = "/usuarios/", method = RequestMethod.POST, produces = "application/json")
     public boolean addUsuario(@RequestBody Usuario usuario) {
         usuario = validateEmail(usuario);
-        usuario.setActualizado(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        usuario.setCreado(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        usuario.setActualizadoEl(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        usuario.setCreadoEl(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         if (validateDocument(usuario.getDocumento())) {
             return false;
         }
@@ -119,7 +120,7 @@ public class UsuarioControllerImpl implements UsuarioController {
             }
         }
         usuario.setEmail(email);
-        usuario.setEstado("Activo");
+        usuario.setEstado(Estado.ACTIVO);
         return usuario;
 
     }
