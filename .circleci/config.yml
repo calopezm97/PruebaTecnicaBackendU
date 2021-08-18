@@ -32,18 +32,23 @@ jobs:
     steps:
       - checkout
 
+      # Download and cache dependencies
       - restore_cache:
           keys:
-            - gradle-{{ checksum "build.gradle" }}
-      - run: gradle build
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: gradle dependencies
+
       - save_cache:
           paths:
             - ~/.gradle
-          key: gradle-{{ checksum "build.gradle" }}
+          key: v1-dependencies-{{ checksum "build.gradle" }}
 
       - run:
           name: Wait for DB
-          command: dockerize -wait tcp://localhost:3307 -timeout 1m
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       # run tests!
       - run: gradle test

@@ -44,8 +44,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 		if (usuarioNew != null) {
 			usuarioNew.setEmail(validateEmail(usuarioNew));
-			usuarioNew.setCreado(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
-			usuarioNew.setActualizado(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+			usuarioNew.setCreatedAt(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+			usuarioNew.setUpdateAt(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
 			usuarioRepository.save(usuarioNew);
 			return true;
 		}
@@ -72,7 +72,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private boolean validateDocument(String document) {
 		List<Usuario> validDocuments = findAllUsuarios();
 		for (Usuario documents : validDocuments) {
-			if (documents.getDocumento().equalsIgnoreCase(document)) {
+			if (documents.getDocument().equalsIgnoreCase(document)) {
 				return true;
 			}
 		}
@@ -88,32 +88,31 @@ public class UsuarioServiceImpl implements UsuarioService {
 		Optional<Usuario> actual = usuarioRepository.findById(num);
 		Usuario usuarioToUpdate = new Usuario();
 		if (usuarioRepository.findById(num).isPresent()) {
-			if (actual.get().getNombre().equalsIgnoreCase(usuarioUpdated.getNombre())
-					&& actual.get().getApellido().equalsIgnoreCase(usuarioUpdated.getApellido())
-					&& actual.get().getPais().getNombre().equals(usuarioToUpdate.getPais().getNombre())) {
+			if (actual.get().getFirstName().equalsIgnoreCase(usuarioUpdated.getFirstName())
+					&& actual.get().getLastName().equalsIgnoreCase(usuarioUpdated.getLastName())) {
 				usuarioToUpdate.setEmail(actual.get().getEmail());
 			} else {
 				usuarioToUpdate.setEmail(validateEmail(usuarioUpdated));
 			}
-			usuarioToUpdate.setDocumento(usuarioUpdated.getDocumento());
-			if (!actual.get().getDocumento().equals(usuarioToUpdate.getDocumento())) {
-				if (validateDocument(usuarioToUpdate.getDocumento())) {
+			usuarioToUpdate.setDocument(usuarioUpdated.getDocument());
+			if (!actual.get().getDocument().equals(usuarioToUpdate.getDocument())) {
+				if (validateDocument(usuarioToUpdate.getDocument())) {
 					return false;
 				}
 			}
-//			usuarioToUpdate.setCreatedAt(actual.get().getCreatedAt());
-//			usuarioToUpdate.setAddmissionDate(UsuarioUpdated.getAddmissionDate());
-//			usuarioToUpdate.setId(UsuarioUpdated.getId());
-//			usuarioToUpdate.setFirstName(UsuarioUpdated.getFirstName());
-//			usuarioToUpdate.setMiddleName(UsuarioUpdated.getMiddleName());
-//			usuarioToUpdate.setLastName(UsuarioUpdated.getLastName());
-//			usuarioToUpdate.setSecondLastName(UsuarioUpdated.getSecondLastName());
-//			usuarioToUpdate.setCountry(UsuarioUpdated.getCountry());
-//			usuarioToUpdate.setDocumentType(UsuarioUpdated.getDocumentType());
-//
-//			usuarioToUpdate.setArea(UsuarioUpdated.getArea());
-//			usuarioToUpdate.setState(UsuarioUpdated.getState());
-//			usuarioToUpdate.setUpdateAt(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+			usuarioToUpdate.setCreatedAt(actual.get().getCreatedAt());
+			usuarioToUpdate.setAddmissionDate(usuarioUpdated.getAddmissionDate());
+			usuarioToUpdate.setId(usuarioUpdated.getId());
+			usuarioToUpdate.setFirstName(usuarioUpdated.getFirstName());
+			usuarioToUpdate.setMiddleName(usuarioUpdated.getMiddleName());
+			usuarioToUpdate.setLastName(usuarioUpdated.getLastName());
+			usuarioToUpdate.setSecondLastName(usuarioUpdated.getSecondLastName());
+			usuarioToUpdate.setCountry(usuarioUpdated.getCountry());
+			usuarioToUpdate.setDocumentType(usuarioUpdated.getDocumentType());
+
+			usuarioToUpdate.setArea(usuarioUpdated.getArea());
+			usuarioToUpdate.setState(usuarioUpdated.getState());
+			usuarioToUpdate.setUpdateAt(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
 			usuarioRepository.save(usuarioToUpdate);
 			return true;
 		}
@@ -127,9 +126,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	 */
 	public String validateEmail(Usuario usuario) {
 		List<Usuario> validEmails = findAllUsuarios();
-		String email = usuario.getNombre() + "." + usuario.getApellido() + "@prueba.com.";
+		String email = usuario.getFirstName() + "." + usuario.getLastName() + "@cidenet.com.";
 		email = email.replaceAll(" ", "");
-		email +=usuario.getPais().getIndicativo();
+		if (usuario.getCountry().equalsIgnoreCase("colombia")) {
+			email += "co";
+		} else {
+			email += "us";
+		}
 		int index = 0;
 		email = email.toLowerCase();
 		String emailaux = email;
@@ -141,7 +144,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		email = email.replaceAll(" ", "");
 		usuario.setEmail(email);
-		usuario.setEstado("Activo");
+		usuario.setState("Activo");
 		return usuario.getEmail();
 
 	}

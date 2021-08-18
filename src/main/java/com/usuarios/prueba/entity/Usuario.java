@@ -25,16 +25,32 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	int id;
-	@Column(length = 20)
-	private String nombre;
-	private String apellido;
-	private Pais pais;
-	private TipoDocumento tipoDocumento;
-	private String documento;
+	@Column(name = "first_name", length = 20)
+	private String firstName;
+	@Column(name = "middle_name", length = 20)
+	private String middleName;
+	@Column(name = "last_name", length = 20)
+	private String lastName;
+	@Column(name = "second_last_name", length = 20)
+	private String secondLastName;
+	@Column(name = "country")
+	private String country;
+	@Column(name = "document_type")
+	private String documentType;
+	@Column(name = "document")
+	private String document;
+	@Column(name = "area")
+	private String area;
+	@Column(name = "email", length = 300)
 	private String email;
-	private Estado estado;
-	private String creadoEl;
-	private String actualizadoEl;
+	@Column(name = "state")
+	private String state;
+	@Column(name = "addmission_date")
+	private String addmissionDate;
+	@Column(name = "created_at")
+	private String createdAt;
+	@Column(name = "update_at")
+	private String updateAt;
 
 
 }
